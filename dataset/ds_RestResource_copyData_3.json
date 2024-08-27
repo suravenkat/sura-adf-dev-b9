@@ -1,0 +1,24 @@
+{
+	"name": "ds_RestResource_copyData_3",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "pl_RestAPI_copyData",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"SourcePageNumberParameter": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"typeProperties": {
+			"relativeUrl": {
+				"value": "@dataset().SourcePageNumberParameter",
+				"type": "Expression"
+			}
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

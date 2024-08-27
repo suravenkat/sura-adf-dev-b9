@@ -1,0 +1,47 @@
+{
+	"name": "ds_target_copy_TumblingWindow_Trigger",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_Target_Database",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "team",
+				"type": "nvarchar"
+			},
+			{
+				"name": "score",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "matches_played",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "sale_date",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "sales_tumbling"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

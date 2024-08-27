@@ -1,0 +1,31 @@
+{
+	"name": "DailySales_Trigger",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "pl_copy_file_adls",
+					"type": "PipelineReference"
+				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "pl_copy_file_adls_copy1",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Minute",
+				"interval": 5,
+				"startTime": "2024-08-22T20:59:00",
+				"endTime": "2024-08-22T21:10:00",
+				"timeZone": "India Standard Time"
+			}
+		}
+	}
+}
