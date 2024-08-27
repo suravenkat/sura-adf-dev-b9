@@ -1,0 +1,48 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "sura-adf-dev-b9"
+		},
+		"AzureSqlDatabase1_connectionString": {
+			"value": ""
+		},
+		"ls_Target_Database_connectionString": {
+			"value": ""
+		},
+		"ls_blob_storage_connectionString": {
+			"value": ""
+		},
+		"ls_source_adls_gen2_accountKey": {
+			"value": ""
+		},
+		"ls_source_sql_server_connectionString": {
+			"value": ""
+		},
+		"LS_RestService1_properties_typeProperties_url": {
+			"value": "https://reqres.in/api/users"
+		},
+		"SQLSalesAzureKeyVault_properties_typeProperties_baseUrl": {
+			"value": "https://adf-b9-keyvault.vault.azure.net/"
+		},
+		"ls_RestService_API_2_properties_typeProperties_url": {
+			"value": "https://reqres.in/api/users"
+		},
+		"ls_SQL_KeyVault_linkedService_properties_typeProperties_connectionString_secretName": {
+			"value": "SourceSalesSQLSecretName"
+		},
+		"ls_source_adls_gen2_properties_typeProperties_url": {
+			"value": "https://adlsgen2b9.dfs.core.windows.net"
+		},
+		"pl_RestAPI_copyData_properties_typeProperties_url": {
+			"value": "https://reqres.in/api/users"
+		},
+		"Sales_TumblingWindowTrigger_properties_pipeline_parameters_StartDate": {
+			"value": "@trigger().outputs.windowStartTime"
+		},
+		"Sales_TumblingWindowTrigger_properties_pipeline_parameters_EndDate": {
+			"value": "@trigger().outputs.windowEndTime"
+		}
+	}
+}
