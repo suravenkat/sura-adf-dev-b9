@@ -14,6 +14,15 @@
 					},
 					"activities": [
 						{
+							"name": "Wait1",
+							"type": "Wait",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"waitTimeInSeconds": 5
+							}
+						},
+						{
 							"name": "Lookup1",
 							"type": "Lookup",
 							"dependsOn": [
