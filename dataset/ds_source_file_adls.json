@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "studentsasasda.csv",
+				"fileName": "studentsasasdaadd.csv",
 				"folderPath": "source",
 				"fileSystem": "sourcegen2container"
 			},
