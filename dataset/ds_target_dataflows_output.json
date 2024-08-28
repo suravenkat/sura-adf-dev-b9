@@ -1,5 +1,5 @@
 {
-	"name": "ds_source_file_adls",
+	"name": "ds_target_dataflows_output",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ls_source_adls_gen2",
@@ -10,8 +10,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "studentsasasdaadd.csv",
-				"folderPath": "source",
+				"fileName": "DataflowOutput",
+				"folderPath": "dataflowsTarget",
 				"fileSystem": "sourcegen2container"
 			},
 			"columnDelimiter": ",",
@@ -20,6 +20,5 @@
 			"quoteChar": "\""
 		},
 		"schema": []
-	},
-	"type": "Microsoft.DataFactory/factories/datasets"
+	}
 }

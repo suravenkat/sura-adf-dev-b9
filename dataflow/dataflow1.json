@@ -1,0 +1,92 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_Source_dataflows",
+						"type": "DatasetReference"
+					},
+					"name": "source1Table1"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_source_DataFlows_sqlTable2",
+						"type": "DatasetReference"
+					},
+					"name": "source2Table2",
+					"description": "EmployeesInfo Table"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_target_dataflows_output",
+						"type": "DatasetReference"
+					},
+					"name": "sink1Destination",
+					"description": "write output into target location"
+				}
+			],
+			"transformations": [
+				{
+					"name": "join1"
+				},
+				{
+					"name": "filter1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          id as integer,",
+				"          name as string,",
+				"          dep as string,",
+				"          salary as decimal(10,2),",
+				"          last_updated as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> source1Table1",
+				"source(output(",
+				"          id as integer,",
+				"          location as string,",
+				"          mobilenum as string,",
+				"          address as string,",
+				"          last_updated as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> source2Table2",
+				"source1Table1, source2Table2 join(source1Table1@id == source2Table2@id,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join1",
+				"join1 filter(equals(dep, 'IT')) ~> filter1",
+				"filter1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     partitionFileNames:['DataflowOutput'],",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     mapColumn(",
+				"          emp_id = source1Table1@id,",
+				"          emp_name = name,",
+				"          dep,",
+				"          salary,",
+				"          last_updated = source1Table1@last_updated,",
+				"          location,",
+				"          mobilenum,",
+				"          address",
+				"     ),",
+				"     partitionBy('hash', 1)) ~> sink1Destination"
+			]
+		}
+	}
+}
