@@ -12,7 +12,7 @@
 			},
 			"ADLS_Prefix": {
 				"type": "string",
-				"value": "abfss://sourcegen2container@adlsgen2b9.dfs.core.windows.net"
+				"value": "abfs://sourcegen2container@adlsgen2b9.dfs.core.windows.net"
 			}
 		}
 	},
