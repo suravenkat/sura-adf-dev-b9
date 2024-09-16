@@ -9,6 +9,10 @@
 			"filepath": {
 				"type": "string",
 				"value": "target"
+			},
+			"ADLS_Prefix": {
+				"type": "string",
+				"value": "abfss://sourcegen2container@adlsgen2b9.dfs.core.windows.net"
 			}
 		}
 	},
