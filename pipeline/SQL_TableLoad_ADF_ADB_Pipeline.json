@@ -1,0 +1,252 @@
+{
+	"name": "SQL_TableLoad_ADF_ADB_Pipeline",
+	"properties": {
+		"activities": [
+			{
+				"name": "AccessTokenNotebook",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "ForEach1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": {
+						"value": "@pipeline().parameters.ADB_Notebook_Path",
+						"type": "Expression"
+					},
+					"baseParameters": {
+						"ingestionTables": {
+							"value": "@string(pipeline().parameters.ingestionTables)",
+							"type": "Expression"
+						},
+						"ADLS_Path_Prefix": {
+							"value": "@pipeline().globalParameters.ADLS_Path_Prefix",
+							"type": "Expression"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureDatabricks1",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.tablelist",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Copy data1",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "AzureSqlSource",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "ParquetSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "ParquetWriteSettings"
+									}
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "ds_Source_Custom_Full_Load",
+									"type": "DatasetReference",
+									"parameters": {
+										"SchemaName": {
+											"value": "@item().tableSchemaName",
+											"type": "Expression"
+										},
+										"TableName": {
+											"value": "@item().tableName",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "ds_custom_full_first_adf_adb",
+									"type": "DatasetReference"
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"ingestionTables": {
+				"type": "object",
+				"defaultValue": {
+					"ingestionTables": [
+						{
+							"sourceTableName": "employees_last7",
+							"targetTableName": "hz_employees_last07",
+							"Source_File_Name": "lz_employees_last07",
+							"Source_File_Location": "/adb/lz_data/src_sys/asia/sales/",
+							"Target_File_Location": "/adb/hz_data/src_sys/asia/sales/hz_employees_last07/",
+							"Delete_File_Location": "/adb/hz_data/src_sys/asia/sales/hz_employees_last07/",
+							"Source_File_Delimiter": "parquet",
+							"Rejected_Record_Location": "/adb/working/sales/err/asia/err_employees_last07/",
+							"Rejected_File_Location": "/adb/lz_data/src_sys/asia/sales/reject/hz_employees_last07/",
+							"Encoding": "UTF-8",
+							"Archive_File": "yes",
+							"Source_File_Archive_Location": "/adb/lz_data/src_sys/asia/sales/archive/hz_employees_last07",
+							"Load_Type_Code": "flush_n_fill",
+							"zone": "asia",
+							"country": "india",
+							"businessDomain": "sales",
+							"businessSubDomain": "sales_electronics_domain",
+							"sourceSystemId": "2023",
+							"sourceSystemName": "sales",
+							"Job_Run_ID": "20231113121245641",
+							"HZ_DB_Name": "dev_adb_database",
+							"watermark_column": "last_updated",
+							"Error_DB_Name": "dev_adb_database",
+							"Error_Data_Lake_object": "err_employees_last07",
+							"tableColumns": [
+								{
+									"sourceColumnName": "id",
+									"sourceDataType": "string",
+									"targetColumnName": "id",
+									"targetDataType": "int",
+									"isKey": false
+								},
+								{
+									"sourceColumnName": "name",
+									"sourceDataType": "nvarchar",
+									"targetColumnName": "name",
+									"targetDataType": "string",
+									"isKey": false
+								},
+								{
+									"sourceColumnName": "dep",
+									"sourceDataType": "nvarchar",
+									"targetColumnName": "dep",
+									"targetDataType": "string",
+									"isKey": false
+								},
+								{
+									"sourceColumnName": "salary",
+									"sourceDataType": "nvarchar",
+									"targetColumnName": "salary",
+									"targetDataType": "DECIMAL(10, 2)",
+									"isKey": false
+								},
+								{
+									"sourceColumnName": "last_updated",
+									"sourceDataType": "datetime",
+									"targetColumnName": "last_updated",
+									"targetDataType": "timestamp",
+									"isKey": false
+								}
+							],
+							"targetTablePartition": []
+						}
+					]
+				}
+			},
+			"ADB_Notebook_Path": {
+				"type": "string",
+				"defaultValue": "/Users/suravenkatb324@gmail.com/ADB/ADB_Ingestion_Data/adb_master_code_adb"
+			},
+			"Batch_Run_ID": {
+				"type": "string",
+				"defaultValue": "20231113121245641"
+			},
+			"Batch_Name": {
+				"type": "string",
+				"defaultValue": "employee"
+			},
+			"CURRENT_USER": {
+				"type": "string",
+				"defaultValue": "suravenkatb324@gmail.com"
+			},
+			"businessArea": {
+				"type": "string",
+				"defaultValue": "sales"
+			},
+			"Business_Sub_Domain": {
+				"type": "string",
+				"defaultValue": "sales_electronics_domain"
+			},
+			"projectName": {
+				"type": "string",
+				"defaultValue": "sales"
+			},
+			"country": {
+				"type": "string",
+				"defaultValue": "india"
+			},
+			"src_sys_name": {
+				"type": "string",
+				"defaultValue": "salesDatabase"
+			},
+			"src_sys_id": {
+				"type": "string",
+				"defaultValue": "2023"
+			},
+			"lz_root_path": {
+				"type": "string",
+				"defaultValue": "/adb/lz_data/src_sys/asia/sales/"
+			},
+			"tablelist": {
+				"type": "array",
+				"defaultValue": [
+					{
+						"tableName": "employees_last7",
+						"tableSchemaName": "dbo",
+						"WaterMark_Column": "last_updated"
+					}
+				]
+			}
+		},
+		"folder": {
+			"name": "ADB-Pipelines"
+		},
+		"annotations": []
+	}
+}
