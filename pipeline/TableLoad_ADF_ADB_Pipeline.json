@@ -1,5 +1,5 @@
 {
-	"name": "Custom_Full_FirstLoad_ADF_ADB",
+	"name": "TableLoad_ADF_ADB_Pipeline",
 	"properties": {
 		"activities": [
 			{
