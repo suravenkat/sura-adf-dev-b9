@@ -1,0 +1,21 @@
+{
+	"name": "ds_custom_full_first_adf_adb",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_source_adls_gen2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "lz_employees_last07",
+				"folderPath": "adb/lz_data/src_sys/asia/sales",
+				"fileSystem": "sourcegen2container"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}
