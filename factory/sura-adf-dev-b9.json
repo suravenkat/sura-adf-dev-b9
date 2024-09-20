@@ -13,6 +13,10 @@
 			"ADLS_Prefix": {
 				"type": "string",
 				"value": "abfs://sourcegen2container@adlsgen2b9.dfs.core.windows.net"
+			},
+			"ADLS_Path_Prefix": {
+				"type": "string",
+				"value": "abfss://sourcegen2container@adlsgen2b9.dfs.core.windows.net"
 			}
 		}
 	},
